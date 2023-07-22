@@ -13,13 +13,11 @@ export const MatchList = () => {
   const [matches] = useMatches()
 
   return (
-    <>
-      <Stack mb="md">
-        {matches.map((match) => (
-          <MatchListEntry key={match} id={match} />
-        ))}
-      </Stack>
-    </>
+    <Stack mb="md">
+      {matches.map((match) => (
+        <MatchListEntry key={match} id={match} />
+      ))}
+    </Stack>
   )
 }
 
@@ -30,10 +28,8 @@ export const MatchListEntry = ({ id }: { id: string }) => {
   if (!match) return null
 
   return (
-    <>
-      <Card onClick={() => navigate(`/match/${id}`)} sx={{ cursor: "pointer" }}>
-        {match?.name}
-      </Card>
-    </>
+    <Card onClick={() => navigate(`/match/${id}`)} sx={{ cursor: "pointer" }}>
+      {match.name}
+    </Card>
   )
 }

@@ -1,13 +1,24 @@
-import { AppShell, Button, FileButton, Group, Header, Text } from "@mantine/core"
-import { MatchList, useMatches } from "./MatchList"
+import { Alert, AppShell, Container, Group, Header, Text } from "@mantine/core"
+import { ReactNode } from "react"
+import { ErrorBoundary, FallbackProps, useErrorBoundary } from "react-error-boundary"
 import { Route, useLocation } from "wouter"
 import { Match } from "./Match"
-import { IconUpload } from "@tabler/icons-react"
-import { parseMatchFile } from "../lib/match"
+import { MatchList } from "./MatchList"
+import { UploadMatch } from "./UploadMatch"
 
-export const App = () => {
+export const Fallback = ({ error }: FallbackProps) => {
+  return (
+    <AppWrapper>
+      <Alert color="red" title="Something went wrong">
+        <pre>{error.message}</pre>
+      </Alert>
+    </AppWrapper>
+  )
+}
+
+export const AppWrapper = ({ children }: { children: ReactNode }) => {
   const [, navigate] = useLocation()
-  const [matches, setMatches] = useMatches()
+  const { resetBoundary } = useErrorBoundary()
 
   return (
     <AppShell
@@ -15,32 +26,17 @@ export const App = () => {
       header={
         <Header height={50} p="xs">
           <Group position="apart">
-            <Group onClick={() => navigate("/")} sx={{ cursor: "pointer" }}>
+            <Group
+              onClick={() => {
+                resetBoundary()
+                navigate("/")
+              }}
+              sx={{ cursor: "pointer" }}
+            >
               <img src="/icon.svg" alt="Logo" width="32" />
               <Text>PS Printer</Text>
             </Group>
-            <FileButton
-              onChange={(file) => {
-                if (!file) return
-
-                const reader = new FileReader()
-                reader.onload = async () => {
-                  if (reader.result === null || !(reader.result instanceof ArrayBuffer)) return null
-
-                  const match = await parseMatchFile(reader.result)
-                  if (!matches.includes(match.id)) setMatches([...matches, match.id])
-                  localStorage.setItem("match-" + match.id, JSON.stringify(match))
-                }
-                reader.readAsArrayBuffer(file)
-              }}
-              accept=".psc"
-            >
-              {(props) => (
-                <Button size="xs" leftIcon={<IconUpload size={16} />} {...props}>
-                  Upload match
-                </Button>
-              )}
-            </FileButton>
+            <UploadMatch />
           </Group>
         </Header>
       }
@@ -51,8 +47,16 @@ export const App = () => {
         },
       })}
     >
-      <Route path="/" component={MatchList} />
-      <Route path="/match/:id" component={Match} />
+      <Container>{children}</Container>
     </AppShell>
   )
 }
+
+export const App = () => (
+  <ErrorBoundary FallbackComponent={Fallback}>
+    <AppWrapper>
+      <Route path="/" component={MatchList} />
+      <Route path="/match/:id" component={Match} />
+    </AppWrapper>
+  </ErrorBoundary>
+)

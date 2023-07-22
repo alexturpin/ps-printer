@@ -193,6 +193,25 @@
         { "target_number": 10, "target_reqshots": 2 },
         { "target_number": 11, "target_reqshots": 2, "target_maxnpms": 1 }
       ]
+    },
+    {
+      "stage_number": 2,
+      "stage_strings": 1,
+      "stage_scoretype": "Comstock",
+      "stage_modifieddate": "2023-07-22 19:38:10.157",
+      "stage_name": "Stage 2",
+      "stage_poppers": 0,
+      "stage_noshoots": true,
+      "stage_numtargs": 0,
+      "stage_uuid": "414a1573-5ff4-443f-ab9b-864d8220fa87",
+      "stage_classictargets": true,
+      "stage_classifier": false,
+      "stage_classifiercode": "",
+      "stage_tppoints": 100,
+      "stage_removeworststring": true,
+      "stage_maxstringtime": 0.0,
+      "stage_doesntrequiretime": false,
+      "stage_targets": [{ "target_number": 1, "target_reqshots": 2 }]
     }
   ],
   "match_shooters": [
