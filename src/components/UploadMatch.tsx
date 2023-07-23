@@ -15,8 +15,6 @@ export const UploadMatch = () => {
       onChange={(file) => {
         if (!file) return
 
-        resetBoundary()
-
         const reader = new FileReader()
         reader.onload = async () => {
           if (reader.result === null || !(reader.result instanceof ArrayBuffer)) return null
@@ -24,9 +22,17 @@ export const UploadMatch = () => {
           try {
             const match = await parseMatchFile(reader.result)
             console.log(match)
+
             if (!matches.includes(match.id)) setMatches([...matches, match.id])
-            localStorage.setItem("match-" + match.id, JSON.stringify(match))
+
+            const key = "match-" + match.id
+            localStorage.setItem(key, JSON.stringify(match))
+            window.dispatchEvent(
+              new CustomEvent("mantine-local-storage", { detail: { key, value: match } }),
+            )
+
             navigate(`/match/${match.id}`)
+            resetBoundary()
           } catch (err) {
             showBoundary(err)
           }

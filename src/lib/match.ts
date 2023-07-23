@@ -2,12 +2,14 @@ import JSZip from "jszip"
 import invariant from "tiny-invariant"
 import { MatchDef, MatchPf, MatchScores } from "./ps"
 import { formatScore } from "./scores"
+import { outdent } from "outdent"
 
 export type MatchInfo = {
   id: string
   name: string
   updatedAt: Date
 
+  stages: Record<number, string>
   shooters: Record<string, ShooterInfo>
 }
 
@@ -25,6 +27,14 @@ export const parseMatchFile = async (file: ArrayBuffer): Promise<MatchInfo> => {
     name: matchDef.match_name,
     updatedAt: new Date(),
 
+    stages: Object.fromEntries(
+      matchDef.match_stages
+        .map(({ stage_number, stage_name }) => [
+          stage_number,
+          /Stage \d+/.test(stage_name) ? stage_name : `${stage_number}: ${stage_name}`,
+        ])
+        .sort(),
+    ),
     shooters: parseMatchScores(matchDef, matchScores),
   }
 }
@@ -65,13 +75,13 @@ const parseMatchScores = (matchDefinition: MatchDef, matchScores: MatchScores) =
   )
 
   for (const matchScore of matchScores.match_scores)
-    for (const score of matchScore.stage_stagescores)
-      shooters[score.shtr].scores[matchScore.stage_number] = formatScore(
-        matchDefinition,
-        shooters[score.shtr].powerFactor,
-        matchScore,
-        score,
-      )
+    for (const score of matchScore.stage_stagescores) {
+      const shooter = shooters[score.shtr]
+      shooter.scores[matchScore.stage_number] = outdent`
+        ${shooter.label}
+        ${formatScore(matchDefinition, shooter.powerFactor, matchScore, score)}
+      `
+    }
 
   return shooters
 }

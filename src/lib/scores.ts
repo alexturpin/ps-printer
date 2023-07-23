@@ -11,11 +11,19 @@ const hitFlags = {
   NPM: 2 ** 24,
 }
 
+const hitMultiplier = {
+  A: 1,
+  C: 1,
+  D: 1,
+  NS: -1,
+  M: -1,
+}
+
 const hitTypes = ["A", "C", "D", "M", "NS", "NPM"] as const
 
 export type Hit = (typeof hitTypes)[number]
 
-type TargetHits = Record<Exclude<Hit, "NPM">, number> & { NPM?: number }
+type TargetHits = Record<Hit, number> & { NPM?: number }
 
 const parseTargetHits = (target: StageTarget, hit: number) => {
   // Get the hit names sorted by their values in descending order
@@ -29,7 +37,7 @@ const parseTargetHits = (target: StageTarget, hit: number) => {
   }
 
   const hits = partialHits as TargetHits
-  const complete = hits.A + hits.C + hits.D + hits.M + (hits.NPM ?? 0) === target.target_reqshots
+  const complete = hits.A + hits.C + hits.D + hits.M + hits.NPM === target.target_reqshots
 
   return {
     ...hits,
@@ -48,12 +56,19 @@ export const formatScore = (
   )
   invariant(stage, `Unknown stage: ${matchScore.stage_uuid}`)
   const stageName = stage.stage_name
-  const mod = new Date(`${score.mod}Z`).toString()
+  const mod = new Date(`${score.mod}Z`)
+  const pad = (n: number) => n.toString().padStart(2, "0")
+  const modifiedAt = `${mod.getFullYear()}-${pad(mod.getMonth() + 1)}-${pad(mod.getDate())} ${pad(
+    mod.getHours(),
+  )}:${pad(mod.getMinutes())}:${pad(mod.getSeconds())}`
   const time = score.str[0]
 
+  let hasNPM = false
   const targets = score.ts.map((hit, targetNumber) => {
     const target = stage.stage_targets.find((t) => t.target_number === targetNumber + 1)
     invariant(target, `Unknown target: ${targetNumber}`)
+
+    if (target.target_maxnpms) hasNPM = true
     return parseTargetHits(target, hit)
   })
   let points = 0
@@ -63,8 +78,9 @@ export const formatScore = (
       if (!target.complete) complete = false
 
       for (const hitType of hitTypes) {
-        acc[hitType] += target[hitType] ?? 0
-        if (hitType !== "NPM") points += target[hitType] * powerFactor[hitType]
+        acc[hitType] += target[hitType]
+        if (hitType !== "NPM")
+          points += target[hitType] * powerFactor[hitType] * hitMultiplier[hitType]
       }
 
       return acc
@@ -72,19 +88,19 @@ export const formatScore = (
     Object.fromEntries(hitTypes.map((hitType) => [hitType, 0])) as TargetHits,
   )
 
+  points = Math.max(0, points)
   const hitFactor = (points / time).toFixed(4)
 
   return outdent`
     Stage: ${stageName}
-    ${mod} (current)
+    ${modifiedAt} (current)
 
     A: ${hits.A}
     C: ${hits.C}
     D: ${hits.D}
     M: ${hits.M}
     NS: ${hits.NS}
-    ${typeof hits.NPM === "number" ? `NPM: ${hits.NPM}` : ""}
-    Proc: ${0 /*TODO*/}
+    ${hasNPM ? `NPM: ${hits.NPM}\n` : ""}Proc: ${0 /*TODO*/}
     Time: ${time}
 
     ${complete ? `HF: ${hitFactor}` : "Incomplete"}
