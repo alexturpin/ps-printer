@@ -14,6 +14,7 @@ import {
 import { IconChevronLeft, IconPrinter } from "@tabler/icons-react"
 import { useLocation } from "wouter"
 import { useState } from "react"
+import { formatDate } from "../lib/utils"
 
 export const useMatch = (id: string) =>
   useLocalStorage<MatchInfo | null>({
@@ -40,12 +41,15 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
 
   return (
     <>
-      <Group align="baseline" mb="md" spacing={4}>
+      <Group align="baseline" spacing={4}>
         <ActionIcon onClick={() => navigate("/")}>
           <IconChevronLeft />
         </ActionIcon>
         <Title order={1}>{match.name}</Title>
       </Group>
+      <Title order={4} color="dimmed" mb="md">
+        Last modified: {formatDate(match.updatedAt)}
+      </Title>
 
       <Stack mb="md">
         {Object.entries(match.shooters).map(([id, shooter]) => (

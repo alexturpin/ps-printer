@@ -1,6 +1,7 @@
 import { outdent } from "outdent"
 import invariant from "tiny-invariant"
-import { MatchDef, MatchPf, MatchScore, StageStagescore, StageTarget } from "./ps"
+import { MatchDef, MatchScore, StageStagescore, StageTarget } from "./ps"
+import { formatDate } from "./utils"
 
 const hitFlags = {
   A: 2 ** 0,
@@ -9,14 +10,6 @@ const hitFlags = {
   NS: 2 ** 16,
   M: 2 ** 20,
   NPM: 2 ** 24,
-}
-
-const hitMultiplier = {
-  A: 1,
-  C: 1,
-  D: 1,
-  NS: -1,
-  M: -1,
 }
 
 const hitTypes = ["A", "C", "D", "M", "NS", "NPM"] as const
@@ -47,7 +40,6 @@ const parseTargetHits = (target: StageTarget, hit: number) => {
 
 export const formatScore = (
   matchDefinition: MatchDef,
-  powerFactor: MatchPf,
   matchScore: MatchScore,
   score: StageStagescore,
 ): string => {
@@ -57,11 +49,27 @@ export const formatScore = (
   invariant(stage, `Unknown stage: ${matchScore.stage_uuid}`)
   const stageName = stage.stage_name
   const mod = new Date(`${score.mod}Z`)
-  const pad = (n: number) => n.toString().padStart(2, "0")
-  const modifiedAt = `${mod.getFullYear()}-${pad(mod.getMonth() + 1)}-${pad(mod.getDate())} ${pad(
-    mod.getHours(),
-  )}:${pad(mod.getMinutes())}:${pad(mod.getSeconds())}`
+  const modifiedAt = formatDate(mod)
   const time = score.str[0]
+
+  const procedures = (score.proc_cnts ?? []).map((procs) => {
+    const [id, count] = Object.entries(procs)[0]
+    const proc = matchDefinition.match_procs.find((proc) => proc.uuid === id)
+    invariant(proc, `Unknown procedure: ${id}`)
+    return `  ${proc.name} ${count}`
+  })
+
+  const dnfs = (score.dnfs ?? []).map((id) => {
+    const dnf = matchDefinition.match_dnfs.find((dnf) => dnf.uuid === id)
+    invariant(dnf, `Unknown DNF: ${id}`)
+    return `  ${dnf.name}`
+  })
+
+  const dqs = (score.dqs ?? []).map((id) => {
+    const dq = matchDefinition.match_dqs.find((dq) => dq.uuid === id)
+    invariant(dq, `Unknown DQ: ${id}`)
+    return `  ${dq.name}`
+  })
 
   let hasNPM = false
   const targets = score.ts.map((hit, targetNumber) => {
@@ -71,38 +79,65 @@ export const formatScore = (
     if (target.target_maxnpms) hasNPM = true
     return parseTargetHits(target, hit)
   })
-  let points = 0
+
   let complete = true
   const hits = targets.reduce(
     (acc, target) => {
       if (!target.complete) complete = false
-
-      for (const hitType of hitTypes) {
-        acc[hitType] += target[hitType]
-        if (hitType !== "NPM")
-          points += target[hitType] * powerFactor[hitType] * hitMultiplier[hitType]
-      }
-
+      for (const hitType of hitTypes) acc[hitType] += target[hitType]
       return acc
     },
     Object.fromEntries(hitTypes.map((hitType) => [hitType, 0])) as TargetHits,
   )
 
-  points = Math.max(0, points)
-  const hitFactor = (points / time).toFixed(4)
+  const points = score.rawpts ?? 0
+  const additionalPenalties = Math.round(((score.apen ?? 0) / 100) * points)
+  const procedureCount = score.proc ?? 0
+  const penalties = (hits.M + hits.NS + procedureCount) * 10 + additionalPenalties
 
-  return outdent`
+  const hitFactor = Math.max(points - penalties, 0) / time
+
+  const header = outdent`
     Stage: ${stageName}
     ${modifiedAt} (current)
+  `
 
+  const scored = outdent`
     A: ${hits.A}
     C: ${hits.C}
     D: ${hits.D}
     M: ${hits.M}
     NS: ${hits.NS}
-    ${hasNPM ? `NPM: ${hits.NPM}\n` : ""}Proc: ${0 /*TODO*/}
-    Time: ${time}
+    ${hasNPM ? `NPM: ${hits.NPM}` : "\0"}
+    Proc: ${procedureCount}
+    ${additionalPenalties > 0 ? `Additional Penalties: ${score.apen}%` : "\0"}
+    ${procedures.length > 0 ? procedures.join("\n") : "\0"}
+    Time: ${time.toFixed(2)}
 
-    ${complete ? `HF: ${hitFactor}` : "Incomplete"}
+    ${complete ? `HF: ${hitFactor.toFixed(4)}` : "Incomplete"}
+  `.replace(`\0\n`, "")
+
+  if (score.dnfs?.length) {
+    return outdent`
+      ${header}
+
+      Did Not Fire
+      ${dnfs.join("\n")}
+    `
+  }
+
+  if (score.dqs?.length) {
+    return outdent`
+      ${header}
+
+      Disqualified
+      ${dqs.join("\n")}
+    `
+  }
+
+  return outdent`
+    ${header}
+    
+    ${scored}
   `
 }

@@ -1,11 +1,16 @@
-☐ test refresh of match page with upload button
-☐ procedures
-☐ dqs
-☐ npms
-☐ complete / incomplete
-☐ add last modified
-  ☐ update properly
-  ☐ match list
-  ☐ match page
-☐ delete match
+✔ test refresh of match page with upload button @done(23-07-23 12:02)
+✔ procedures @done(23-07-23 11:50)
+✔ dqs @done(23-07-23 12:03)
+✔ npms @done(23-07-23 12:03)
+✔ additional penalties @done(23-07-23 12:15)
+✔ complete / incomplete @done(23-07-23 12:15)
+✔ add last modified @done(23-07-23 12:42)
+  ✔ update properly @done(23-07-23 12:42)
+  ✔ match list @done(23-07-23 12:42)
+  ✔ match page @done(23-07-23 12:42)
+✔ delete match @done(23-07-23 12:41)
+☐ share out
+☐ sort by name
+☐ group by squad
 ☐ share target
+☐ deploy

@@ -109,6 +109,7 @@ export interface MatchShooter {
   mod_dl: string
   mod_dq: string
   sh_dq: boolean
+  sh_dqrule?: string
 }
 
 export interface MatchDivisionpfs {
@@ -192,7 +193,14 @@ export interface StageStagescore {
   mod: string
   popm: number
   poph: number
-  rawpts: number
+  apen?: number
+  apen_perc?: boolean
+  proc?: number
+  proc_cnts?: Record<string, number>[]
+  rawpts?: number
+  dnf?: boolean
+  dnfs?: string[]
+  dqs?: string[]
   str: number[]
   ts: number[]
   aprv: boolean
@@ -205,7 +213,14 @@ export interface MatchScoreHistory {
   mod: string
   popm: number
   poph: number
-  rawpts: number
+  apen?: number
+  apen_perc?: boolean
+  proc?: number
+  proc_cnts?: Record<string, number>[]
+  rawpts?: number
+  dnf?: boolean
+  dnfs?: string[]
+  dqs?: string[]
   str: number[]
   ts: number[]
   meta?: Meum[]

@@ -1,1 +1,182 @@
-{"match_id":"297c9447-f718-47bb-9b2c-87916635de19","match_scores":[{"stage_number":"1","stage_uuid":"27841b4c-07f9-432b-b0ee-20e4067e811a","stage_stagescores":[{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-22 20:21:42.692","popm":0,"poph":0,"rawpts":66,"str":[12.35],"ts":[2,257,4097,1048577,131074,2,512,8192,2097152,332032,16777217],"meta":[{"k":"from","v":"Restored from 2023-07-17 00:44","t":"2023-07-22 20:21:42.691"}],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"}]},{"stage_number":"2","stage_uuid":"414a1573-5ff4-443f-ab9b-864d8220fa87","stage_stagescores":[{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-22 19:38:43.199","popm":0,"poph":0,"rawpts":10,"str":[5.88],"ts":[2],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"}]}],"match_scores_history":{"27841b4c-07f9-432b-b0ee-20e4067e811a":{"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e":[{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-22 20:14:51.881","popm":0,"poph":0,"rawpts":69,"str":[12.35],"ts":[2,257,4097,1048577,131074,2,512,8192,2097152,332032,257],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"},{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-17 04:44:46.578","popm":0,"poph":0,"rawpts":66,"str":[12.35],"ts":[2,257,4097,1048577,131074,2,512,8192,2097152,332032,16777217],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"},{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-17 04:24:32.011","popm":0,"poph":0,"rawpts":31,"str":[12.35],"ts":[1,256,4096,1048576,65536,2,512,8192,2097152,332032,16777216],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"},{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-17 04:24:21.600","popm":0,"poph":0,"rawpts":31,"str":[12.35],"ts":[1,256,4096,1048576,65536,2,512,8192,2097152,332032,0],"meta":[{"k":"from","v":"Stage edited","t":"2023-07-17 04:24:21.600"}],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"},{"shtr":"278a6b1e-85f3-4933-9c84-4da1bf6b6d1e","mod":"2023-07-17 04:15:16.187","popm":0,"poph":0,"rawpts":31,"str":[12.35],"ts":[1,256,4096,1048576,65536,2,512,8192,2097152,332032,0],"aprv":true,"udid":"ab53b721-ce25-4fe8-a904-242cc49685d4","dname":"CTO Phone"}]}}}
+{
+  "match_id": "297c9447-f718-47bb-9b2c-87916635de19",
+  "match_scores": [
+    {
+      "stage_number": "1",
+      "stage_uuid": "27841b4c-07f9-432b-b0ee-20e4067e811a",
+      "stage_stagescores": [
+        {
+          "shtr": "3358849a-0614-4b50-967d-b40bf53879a0",
+          "mod": "2023-07-23 15:17:24.637",
+          "popm": 0,
+          "poph": 0,
+          "apen": 10,
+          "apen_perc": true,
+          "rawpts": 108,
+          "str": [55.0],
+          "ts": [2, 2, 2, 2, 2, 2, 2, 257, 2, 2, 2],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-22 20:21:42.692",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 66,
+          "str": [12.35],
+          "ts": [2, 257, 4097, 1048577, 131074, 2, 512, 8192, 2097152, 332032, 16777217],
+          "meta": [
+            { "k": "from", "v": "Restored from 2023-07-17 00:44", "t": "2023-07-22 20:21:42.691" }
+          ],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "3ef05ad3-db06-4d90-9ab8-401ddbda651e",
+          "mod": "2023-07-23 15:15:40.163",
+          "popm": 0,
+          "poph": 0,
+          "proc": 3,
+          "proc_cnts": [{ "EQRTwQ": 2 }, { "7wTzBw": 1 }],
+          "rawpts": 89,
+          "str": [56.89],
+          "ts": [2, 1048577, 2, 66048, 2, 2, 257, 2, 2, 2097152, 2],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        }
+      ]
+    },
+    {
+      "stage_number": "2",
+      "stage_uuid": "414a1573-5ff4-443f-ab9b-864d8220fa87",
+      "stage_stagescores": [
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-22 19:38:43.199",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 10,
+          "str": [5.88],
+          "ts": [2],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "3ef05ad3-db06-4d90-9ab8-401ddbda651e",
+          "mod": "2023-07-23 15:15:57.945",
+          "popm": 0,
+          "poph": 0,
+          "dnf": true,
+          "dnfs": ["4AEvHd"],
+          "str": [0.0],
+          "ts": [0],
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        }
+      ]
+    },
+    {
+      "stage_number": "3",
+      "stage_uuid": "e280b794-16db-4e47-b34e-c8d3b0520023",
+      "stage_stagescores": [
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-23 15:10:48.975",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 35,
+          "str": [0.0],
+          "ts": [2, 1, 2, 2, 0],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "3ef05ad3-db06-4d90-9ab8-401ddbda651e",
+          "mod": "2023-07-23 15:16:23.664",
+          "popm": 0,
+          "poph": 0,
+          "dqs": ["Gtmb6C", "uZmpFr"],
+          "str": [0.0],
+          "ts": [0, 0, 0, 0, 0],
+          "aprv": true,
+          "stagedq_details": "3: Bob",
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        }
+      ]
+    }
+  ],
+  "match_scores_history": {
+    "27841b4c-07f9-432b-b0ee-20e4067e811a": {
+      "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e": [
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-22 20:14:51.881",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 69,
+          "str": [12.35],
+          "ts": [2, 257, 4097, 1048577, 131074, 2, 512, 8192, 2097152, 332032, 257],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-17 04:44:46.578",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 66,
+          "str": [12.35],
+          "ts": [2, 257, 4097, 1048577, 131074, 2, 512, 8192, 2097152, 332032, 16777217],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-17 04:24:32.011",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 31,
+          "str": [12.35],
+          "ts": [1, 256, 4096, 1048576, 65536, 2, 512, 8192, 2097152, 332032, 16777216],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-17 04:24:21.600",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 31,
+          "str": [12.35],
+          "ts": [1, 256, 4096, 1048576, 65536, 2, 512, 8192, 2097152, 332032, 0],
+          "meta": [{ "k": "from", "v": "Stage edited", "t": "2023-07-17 04:24:21.600" }],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        },
+        {
+          "shtr": "278a6b1e-85f3-4933-9c84-4da1bf6b6d1e",
+          "mod": "2023-07-17 04:15:16.187",
+          "popm": 0,
+          "poph": 0,
+          "rawpts": 31,
+          "str": [12.35],
+          "ts": [1, 256, 4096, 1048576, 65536, 2, 512, 8192, 2097152, 332032, 0],
+          "aprv": true,
+          "udid": "ab53b721-ce25-4fe8-a904-242cc49685d4",
+          "dname": "CTO Phone"
+        }
+      ]
+    }
+  }
+}

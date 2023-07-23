@@ -1,13 +1,13 @@
 import JSZip from "jszip"
-import invariant from "tiny-invariant"
-import { MatchDef, MatchPf, MatchScores } from "./ps"
-import { formatScore } from "./scores"
 import { outdent } from "outdent"
+import invariant from "tiny-invariant"
+import { MatchDef, MatchScores } from "./ps"
+import { formatScore } from "./scores"
 
 export type MatchInfo = {
   id: string
   name: string
-  updatedAt: Date
+  updatedAt: number // timestamp in milliseconds for ease of JSON serialization
 
   stages: Record<number, string>
   shooters: Record<string, ShooterInfo>
@@ -15,7 +15,6 @@ export type MatchInfo = {
 
 export type ShooterInfo = {
   label: string
-  powerFactor: MatchPf
   scores: Record<string, string>
 }
 
@@ -25,7 +24,6 @@ export const parseMatchFile = async (file: ArrayBuffer): Promise<MatchInfo> => {
   return {
     id: matchDef.match_id,
     name: matchDef.match_name,
-    updatedAt: new Date(),
 
     stages: Object.fromEntries(
       matchDef.match_stages
@@ -35,7 +33,7 @@ export const parseMatchFile = async (file: ArrayBuffer): Promise<MatchInfo> => {
         ])
         .sort(),
     ),
-    shooters: parseMatchScores(matchDef, matchScores),
+    ...parseMatchScores(matchDef, matchScores),
   }
 }
 
@@ -70,18 +68,23 @@ const parseMatchScores = (matchDefinition: MatchDef, matchScores: MatchScores) =
 
       const label = `${sh_ln}, ${sh_fn} (${dvp}/${powerFactor?.short})`
 
-      return [sh_uid, { label, powerFactor: { ...powerFactor, NPM: 0 }, scores: {} }]
+      return [sh_uid, { label, scores: {} }]
     }),
   )
 
+  let updatedAt = Date.now()
+
   for (const matchScore of matchScores.match_scores)
     for (const score of matchScore.stage_stagescores) {
+      const stageModifiedAt = new Date(`${score.mod}Z`).getTime()
+      if (stageModifiedAt > updatedAt) updatedAt = stageModifiedAt
+
       const shooter = shooters[score.shtr]
       shooter.scores[matchScore.stage_number] = outdent`
         ${shooter.label}
-        ${formatScore(matchDefinition, shooter.powerFactor, matchScore, score)}
+        ${formatScore(matchDefinition, matchScore, score)}
       `
     }
 
-  return shooters
+  return { shooters, updatedAt }
 }
