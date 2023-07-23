@@ -5,6 +5,7 @@ import { Route, useLocation } from "wouter"
 import { Match } from "./Match"
 import { MatchList } from "./MatchList"
 import { UploadMatch } from "./UploadMatch"
+import { ShareTarget } from "./ShareTarget"
 
 export const Fallback = ({ error }: FallbackProps) => {
   return (
@@ -57,6 +58,7 @@ export const App = () => (
     <AppWrapper>
       <Route path="/" component={MatchList} />
       <Route path="/match/:id" component={Match} />
+      <Route path="/share" component={ShareTarget} />
     </AppWrapper>
   </ErrorBoundary>
 )

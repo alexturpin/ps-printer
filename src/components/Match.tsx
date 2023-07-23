@@ -117,6 +117,13 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
               if (!printOut.trim()) return
 
               console.log(printOut)
+
+              if (navigator.share) {
+                navigator.share({
+                  title: shooterToPrint?.label,
+                  text: printOut,
+                })
+              }
             }}
           >
             Print

@@ -8,6 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
+      strategies: "injectManifest",
       manifest: {
         name: "My Awesome App",
         short_name: "MyApp",
@@ -37,6 +38,19 @@ export default defineConfig({
             purpose: "maskable",
           },
         ],
+        share_target: {
+          action: "/share-target/",
+          method: "POST",
+          enctype: "multipart/form-data",
+          params: {
+            files: [
+              {
+                name: "file",
+                accept: ["application/zip"],
+              },
+            ],
+          },
+        },
       },
     }),
   ],
