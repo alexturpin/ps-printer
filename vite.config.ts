@@ -10,9 +10,9 @@ export default defineConfig({
       registerType: "autoUpdate",
       strategies: "injectManifest",
       manifest: {
-        name: "My Awesome App",
-        short_name: "MyApp",
-        description: "My Awesome App description",
+        name: "PS Printer",
+        short_name: "PS Printer",
+        description: "PractiScore batch printer",
         theme_color: "#ffffff",
         icons: [
           {
