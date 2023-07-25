@@ -72,7 +72,7 @@ const parseMatchScores = (matchDefinition: MatchDef, matchScores: MatchScores) =
     }),
   )
 
-  let updatedAt = Date.now()
+  let updatedAt = new Date(`${matchDefinition.match_modifieddate}Z`).getTime()
 
   for (const matchScore of matchScores.match_scores)
     for (const score of matchScore.stage_stagescores) {

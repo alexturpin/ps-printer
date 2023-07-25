@@ -9,13 +9,13 @@ export const ShareTarget = () => {
     const receive = async (event: MessageEvent) => {
       if (!(event.data instanceof ArrayBuffer)) return
 
-      await uploadMatch(event.data)
       navigator.serviceWorker.controller?.postMessage({ action: "clearSharedData" })
+      await uploadMatch(event.data)
     }
 
     navigator.serviceWorker.addEventListener("message", receive)
     return () => navigator.serviceWorker.removeEventListener("message", receive)
   })
 
-  return <p>Share target</p>
+  return <p>Shared successfully!</p>
 }
