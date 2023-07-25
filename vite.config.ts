@@ -46,7 +46,7 @@ export default defineConfig({
             files: [
               {
                 name: "file",
-                accept: ["application/zip"],
+                accept: ["*/*"],
               },
             ],
           },
