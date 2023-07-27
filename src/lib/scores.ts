@@ -50,7 +50,7 @@ export const formatScore = (
   const stageName = stage.stage_name
   const mod = new Date(`${score.mod}Z`)
   const modifiedAt = formatDate(mod)
-  const time = score.str[0]
+  const time = score.str[0] ?? 0
 
   const procedures = (score.proc_cnts ?? []).map((procs) => {
     const [id, count] = Object.entries(procs)[0]
@@ -72,7 +72,7 @@ export const formatScore = (
   })
 
   let hasNPM = false
-  const targets = score.ts.map((hit, targetNumber) => {
+  const targets = (score.ts ?? []).map((hit, targetNumber) => {
     const target = stage.stage_targets.find((t) => t.target_number === targetNumber + 1)
     invariant(target, `Unknown target: ${targetNumber}`)
 
