@@ -112,7 +112,7 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
                 .filter(([, print]) => print)
                 .sort()
                 .map(([stageNumber]) => shooterToPrint?.scores[stageNumber])
-                .join("\n\n\n")
+                .join("\n\n")
 
               if (!printOut.trim()) return
 
@@ -121,7 +121,7 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
               if (navigator.share) {
                 navigator.share({
                   title: shooterToPrint?.label,
-                  text: printOut,
+                  text: printOut + "\n\n\n",
                 })
               }
             }}
