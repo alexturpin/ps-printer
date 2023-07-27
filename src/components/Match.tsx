@@ -27,6 +27,10 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
   const [, navigate] = useLocation()
 
   const [match] = useMatch(id)
+  const shooters = Object.values(match?.shooters ?? []).sort((a, b) => {
+    if (a.squad === b.squad) return a.name.localeCompare(b.name)
+    return a.squad - b.squad
+  })
 
   const [shooterToPrint, setShooterToPrint] = useState<ShooterInfo | null>(null)
   const [stagesToPrint, setStagesToPrint] = useState<Record<string, boolean>>({})
@@ -52,21 +56,27 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
       </Title>
 
       <Stack mb="md">
-        {Object.entries(match.shooters).map(([id, shooter]) => (
-          <Card key={id}>
-            <Group position="apart">
-              <Title order={4}>{shooter.label}</Title>
-              <Button
-                leftIcon={<IconPrinter />}
-                onClick={() => {
-                  setShooterToPrint(shooter)
-                  selectAll()
-                }}
-              >
-                Print
-              </Button>
-            </Group>
-          </Card>
+        {shooters.map((shooter, idx) => (
+          <>
+            {shooter.squad !== shooters[idx - 1]?.squad && (
+              <Title mb="md">Squad {shooter.squad}</Title>
+            )}
+
+            <Card key={shooter.id}>
+              <Group position="apart">
+                <Title order={4}>{shooter.label}</Title>
+                <Button
+                  leftIcon={<IconPrinter />}
+                  onClick={() => {
+                    setShooterToPrint(shooter)
+                    selectAll()
+                  }}
+                >
+                  Print
+                </Button>
+              </Group>
+            </Card>
+          </>
         ))}
       </Stack>
 

@@ -14,7 +14,10 @@ export type MatchInfo = {
 }
 
 export type ShooterInfo = {
+  id: string
+  name: string
   label: string
+  squad: number
   scores: Record<string, string>
 }
 
@@ -55,7 +58,7 @@ const parsePSCFile = async (file: ArrayBuffer) => {
 
 const parseMatchScores = (matchDefinition: MatchDef, matchScores: MatchScores) => {
   const shooters: Record<string, ShooterInfo> = Object.fromEntries(
-    matchDefinition.match_shooters.map(({ sh_uid, sh_ln, sh_fn, sh_dvp, sh_pf }) => {
+    matchDefinition.match_shooters.map(({ sh_uid, sh_ln, sh_fn, sh_dvp, sh_pf, sh_sqd }) => {
       const dvp = sh_dvp
         .split(" ")
         .map((word) => word.at(0))
@@ -66,9 +69,12 @@ const parseMatchScores = (matchDefinition: MatchDef, matchScores: MatchScores) =
       )
       invariant(powerFactor, `Unknown power factor: ${sh_pf}`)
 
+      const id = sh_uid
+      const name = `${sh_fn} ${sh_ln}`
       const label = `${sh_ln}, ${sh_fn} (${dvp}/${powerFactor?.short})`
+      const squad = sh_sqd
 
-      return [sh_uid, { label, scores: {} }]
+      return [id, { id, name, label, squad, scores: {} }]
     }),
   )
 
