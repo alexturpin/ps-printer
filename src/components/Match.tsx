@@ -9,9 +9,10 @@ import {
   Modal,
   Space,
   Stack,
+  TextInput,
   Title,
 } from "@mantine/core"
-import { IconChevronLeft, IconPrinter } from "@tabler/icons-react"
+import { IconChevronLeft, IconPrinter, IconSearch, IconX } from "@tabler/icons-react"
 import { useLocation } from "wouter"
 import { useState } from "react"
 import { formatDate } from "../lib/utils"
@@ -26,11 +27,19 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
   const { id } = params
   const [, navigate] = useLocation()
 
+  const [filter, setFilter] = useState("")
+
   const [match] = useMatch(id)
-  const shooters = Object.values(match?.shooters ?? []).sort((a, b) => {
-    if (a.squad === b.squad) return a.name.localeCompare(b.name)
-    return a.squad - b.squad
-  })
+  const shooters = Object.values(match?.shooters ?? [])
+    .filter(
+      (shooter) =>
+        !filter.trim().length ||
+        shooter.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase()),
+    )
+    .sort((a, b) => {
+      if (a.squad === b.squad) return a.name.localeCompare(b.name)
+      return a.squad - b.squad
+    })
 
   const [shooterToPrint, setShooterToPrint] = useState<ShooterInfo | null>(null)
   const [stagesToPrint, setStagesToPrint] = useState<Record<string, boolean>>({})
@@ -55,11 +64,29 @@ export const Match = ({ params }: { params: Record<"id", string> }) => {
         Last modified: {formatDate(match.updatedAt)}
       </Title>
 
+      <TextInput
+        size="lg"
+        icon={<IconSearch />}
+        placeholder="Filter"
+        onChange={({ currentTarget }) => setFilter(currentTarget.value)}
+        value={filter}
+        rightSection={
+          filter.trim().length ? (
+            <ActionIcon onClick={() => setFilter("")}>
+              <IconX />
+            </ActionIcon>
+          ) : null
+        }
+        mb="md"
+      />
+
       <Stack mb="md">
         {shooters.map((shooter, idx) => (
           <>
             {shooter.squad !== shooters[idx - 1]?.squad && (
-              <Title mb="md">Squad {shooter.squad}</Title>
+              <Title mb="md" key={`squad-${shooter.squad}`}>
+                Squad {shooter.squad}
+              </Title>
             )}
 
             <Card key={shooter.id}>
